@@ -12,11 +12,13 @@ class Sensor(object):
     def __init__(self, metric='indefined', tags=None):
         self.metric = METRIC_PREFIXE + metric
         if tags is None:
-            self.tags = 'host:' + HOSTS[randint(0, len(HOSTS)-1)]
+            self.tags = 'host:{}-{}'.format(HOSTS[randint(0, len(HOSTS)-1)],
+                    randint(1000, 9999))
         else:
             self.tags = tags
             if 'host' not in tags:
-                self.tags += ',host:' + HOSTS[randint(0, len(HOSTS)-1)]
+                self.tags = 'host:{}-{}'.format(HOSTS[randint(0, len(HOSTS)-1)],
+                    randint(1000, 9999))
 
     def get_value(self):
         raise ValueError('You must implement the get_value methode')
