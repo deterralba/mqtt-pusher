@@ -67,7 +67,7 @@ class Memory(Sensor):
     def get_value(self):
         from subprocess import check_output
         try:
-            output = check_output(['free', '-m'])
+            output = check_output(['free'])
         except:
             raise OSError('Cannot run memory sensor here, the `free` command is needed.')
         return self.parse_output(output)
