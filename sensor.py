@@ -9,10 +9,14 @@ METRIC_PREFIXE = 'iot.poc.'
 HOSTS = ['batman', 'snoopy', 'snoopdog', 'milou', 'superman']
 
 class Sensor(object):
-    def __init__(self, metric='indefined', tags={}):
+    def __init__(self, metric='indefined', tags=None):
         self.metric = METRIC_PREFIXE + metric
-        self.tags = tags
-        self.tags['host'] = HOSTS[randint(0, len(HOSTS)-1)]
+        if tags is None:
+            self.tags = 'host:' + HOSTS[randint(0, len(HOSTS)-1)]
+        else:
+            self.tags = tags
+            if 'host' not in tags:
+                self.tags += ',host:' + HOSTS[randint(0, len(HOSTS)-1)]
 
     def get_value(self):
         raise ValueError('You must implement the get_value methode')
@@ -53,14 +57,7 @@ class Light(Sensor):
         return 0.5 + 0.45*sin(self.count*2*3.14/self.period) + randint(-5, 5)/100
 
 def get_payload(sensor):
-
-    tags = []
-    for k, v in sensor.tags.iteritems():
-        if v:
-            tags.append('{}:{}'.format(k, v))
-        else:
-            tags.append(str(k))
-    return '{}:{}|g|#{}'.format(sensor.metric, sensor.get_value(), ','.join(tags))
+    return '{}:{}|g|#{}'.format(sensor.metric, sensor.get_value(), sensor.tags)
 
 if __name__ == '__main__':
     # t = Temperature()
@@ -68,7 +65,7 @@ if __name__ == '__main__':
     # l = Light()
     # sensors = [t, p, l]
     sensors = [Temperature, Pressure, Light]
-    for s in [sensors[randint(0, 2)](tags={'test':'', 'cool?':'cool'}) for i in xrange(200)]:
+    for s in [sensors[randint(0, 2)](tags='host:ds') for i in xrange(10)]:
         print(type(s).__name__, get_payload(s))
         # print([s.get_value() for i in xrange(5)])
 
