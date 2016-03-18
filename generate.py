@@ -32,7 +32,8 @@ if args.verbose:
 
 sensors = {'temperature':sensor.Temperature,
            'pressure':sensor.Pressure,
-           'light':sensor.Light
+           'light':sensor.Light,
+           'memory':sensor.Memory,
            }
 try:
     the_sensor = sensors[args.sensor](tags=args.tags)
