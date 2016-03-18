@@ -60,7 +60,7 @@ class Light(Sensor):
 
 
 class Memory(Sensor):
-    def __init__(self, metric='memory_used', **kwargs):
+    def __init__(self, metric='memory_free', **kwargs):
         Sensor.__init__(self, metric=metric, **kwargs)
 
     def get_value(self):
