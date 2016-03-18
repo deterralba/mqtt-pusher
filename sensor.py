@@ -62,6 +62,7 @@ class Light(Sensor):
 class Memory(Sensor):
     def __init__(self, metric='memory_free', **kwargs):
         Sensor.__init__(self, metric=metric, **kwargs)
+        self.metric = 'mqtt.free_memory'
 
     def get_value(self):
         from subprocess import check_output
