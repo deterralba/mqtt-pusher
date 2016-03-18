@@ -57,7 +57,7 @@ while True:
         cmd.append('-d')
 
     if args.verbose:
-        print('Will send {}'.format(cmd))
+        print('Will send {}'.format(' '.join(cmd)))
 
     # subprocess doesn't correctly send the cmd. Why? It's a mystery
     # proc = subprocess.Popen(cmd)
